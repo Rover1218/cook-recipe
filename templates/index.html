@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get your Recipies</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/1308416.png') }}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .animated-input {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .animated-input:focus {
+            border-color: #4ade80;
+            /* Tailwind's green-500 */
+            box-shadow: 0 0 0 2px rgba(72, 187, 120, 0.5);
+            /* Light green shadow */
+        }
+
+        .recipe-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .recipe-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-r from-blue-500 to-black text-white">
+    <div class="container mx-auto text-center mt-10">
+        <h1 class="text-5xl font-bold text-green-400">Get Your Recipies</h1>
+        <p class="text-xl text-gray-300">Discover delicious recipes based on your ingredients!</p>
+
+        <!-- Ingredient Input Form -->
+        <form method="post" class="mb-6">
+            <div class="flex justify-center">
+                <input type="text" id="ingredients" name="ingredients"
+                    class="animated-input border-2 border-gray-300 rounded-lg py-2 px-4 w-1/2 focus:outline-none"
+                    placeholder="e.g. tomato, cheese, garlic" required>
+                <button type="submit"
+                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg ml-2">Find
+                    Recipes</button>
+            </div>
+        </form>
+
+        <!-- Display Recipe Results -->
+        {% if submitted %}
+        <h2 class="text-2xl text-blue-300 mb-4">Recipes Found:</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% if recipes is not none and recipes['hits'] | length > 0 %}
+            {% for recipe in recipes['hits'] %}
+            <div class="recipe-card bg-gray-800 hover:bg-gray-700 rounded-lg p-4 mb-2">
+                <strong class="text-lg text-white">{{ recipe['recipe']['label'] }}</strong>
+                <a href="{{ recipe['recipe']['url'] }}" target="_blank"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded float-right">View
+                    Recipe</a>
+                <ul class="mt-2 text-sm text-gray-300">
+                    <li><strong>Used Ingredients:</strong> {{ recipe['recipe']['ingredientLines'] | join(', ') }}</li>
+                </ul>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-red-400">No recipes found. Please try different ingredients.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
