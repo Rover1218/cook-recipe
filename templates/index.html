@@ -4,46 +4,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get your Recipies</title>
+    <title>Get Your Recipes</title>
     <link rel="icon" href="{{ url_for('static', filename='images/1308416.png') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding-bottom: 60px;
+            /* Adjust this to match footer height */
+        }
+
+        /* Background animation */
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .bg-animated {
+            background: linear-gradient(270deg, #596545, #202020);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
         .animated-input {
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .animated-input:focus {
             border-color: #4ade80;
-            /* Tailwind's green-500 */
             box-shadow: 0 0 0 2px rgba(72, 187, 120, 0.5);
-            /* Light green shadow */
         }
 
         .recipe-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
         .recipe-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .button {
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #38a169;
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #38a169;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        /* Header styles */
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem 0;
+        }
+
+        nav {
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #4ade80;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: url('https://i.pinimg.com/originals/69/e2/61/69e261419d7def685b1aa4204707a5bf.gif');
+            /* Add a hero image */
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero p {
+            color: #ffffff;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem 0;
+            text-align: center;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
     </style>
 </head>
 
-<body class="bg-gradient-to-r from-blue-500 to-black text-white">
-    <div class="container mx-auto text-center mt-10">
-        <h1 class="text-5xl font-bold text-green-400">Get Your Recipies</h1>
-        <p class="text-xl text-gray-300">Discover delicious recipes based on your ingredients!</p>
+<body class="bg-animated text-white">
+    <header>
+        <nav class="container mx-auto flex justify-center">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+        </nav>
+    </header>
 
+    <div class="hero">
+        <h1 class="font-extrabold">Get Your Recipes</h1>
+        <p>Discover delicious recipes based on your ingredients!</p>
+    </div>
+
+    <div class="container mx-auto text-center mt-10">
         <!-- Ingredient Input Form -->
         <form method="post" class="mb-6">
             <div class="flex justify-center">
                 <input type="text" id="ingredients" name="ingredients"
                     class="animated-input border-2 border-gray-300 rounded-lg py-2 px-4 w-1/2 focus:outline-none"
                     placeholder="e.g. tomato, cheese, garlic" required>
-                <button type="submit"
-                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg ml-2">Find
+                <button type="submit" class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg ml-2 button">Find
                     Recipes</button>
             </div>
         </form>
@@ -54,7 +183,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% if recipes is not none and recipes['hits'] | length > 0 %}
             {% for recipe in recipes['hits'] %}
-            <div class="recipe-card bg-gray-800 hover:bg-gray-700 rounded-lg p-4 mb-2">
+            <div class="recipe-card p-4 mb-2">
+                <img src="{{ recipe['recipe']['image'] }}" alt="{{ recipe['recipe']['label'] }}"
+                    class="rounded mb-2 w-full h-32 object-cover">
                 <strong class="text-lg text-white">{{ recipe['recipe']['label'] }}</strong>
                 <a href="{{ recipe['recipe']['url'] }}" target="_blank"
                     class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded float-right">View
@@ -70,6 +201,11 @@
         </div>
         {% endif %}
     </div>
+
+    <footer>
+        <p>&copy; 2024 Anindya Get Your Recipes. All rights reserved.</p>
+        <p><a href="{{ url_for('contact') }}" class="text-green-400">Contact Us</a></p>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

@@ -40,5 +40,13 @@ def index():
 
     return render_template('index.html', recipes=recipes, submitted=submitted)
 
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        # Handle contact form submission logic here if needed
+        pass  # Placeholder for handling form submission
+
+    return render_template('contact.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

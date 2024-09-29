@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Get Your Recipes</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/1308416.png') }}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding-bottom: 60px;
+            /* Adjust this to match footer height */
+        }
+
+        /* Background animation */
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .bg-animated {
+            background: linear-gradient(270deg, #616252, #202020);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem 0;
+            text-align: center;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        /* Header styles to match index page */
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem 0;
+        }
+
+        header a {
+            margin: 0 1rem;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        header a:hover {
+            color: #4ade80;
+            /* Matches hover color of the main page */
+        }
+    </style>
+</head>
+
+<body class="bg-animated text-white">
+    <header>
+        <nav class="container mx-auto flex justify-center">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('contact') }}" class="text-green-400">Contact</a>
+        </nav>
+    </header>
+
+    <div class="container mx-auto text-center mt-10">
+        <h1 class="text-3xl font-extrabold mb-6">Contact Us</h1>
+        <p>If you have any questions or feedback, please find our contact details below:</p>
+
+        <div class="mt-6 max-w-md mx-auto">
+            <div class="mb-4">
+                <h2 class="border-2 border-gray-300 rounded-lg py-2 px-4 w-full text-left">
+                    Name: Anindya Kanti Das
+                </h2>
+            </div>
+            <div class="mb-4">
+                <h2 class="border-2 border-gray-300 rounded-lg py-2 px-4 w-full text-left">
+                    Email: anindyakanti2020@gmail.com
+                </h2>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Anindya Get Your Recipes. All rights reserved.</p>
+            <p><a href="{{ url_for('contact') }}" class="text-green-400">Contact Us</a></p>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
