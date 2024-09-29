@@ -91,7 +91,7 @@ The **Smart Recipe Generator** is a web application that allows users to discove
 Contributions are welcome! If you have suggestions or improvements, please fork the repository and submit a pull request.
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgements
 - [Edamam API](https://developer.edamam.com/edamam-docs-recipe-api) for providing the recipe data.
