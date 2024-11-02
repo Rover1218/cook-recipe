@@ -6,211 +6,227 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get Your Recipes</title>
     <link rel="icon" href="{{ url_for('static', filename='images/1308416.png') }}" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'gradient': 'gradient 15s ease infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    },
+                    keyframes: {
+                        gradient: {
+                            '0%, 100%': {
+                                'background-position': '0% 50%'
+                            },
+                            '50%': {
+                                'background-position': '100% 50%'
+                            }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            padding-bottom: 60px;
-            /* Adjust this to match footer height */
-        }
-
-        /* Background animation */
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .bg-animated {
+        .bg-gradient-animate {
             background: linear-gradient(270deg, #596545, #202020);
             background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
-
-        .animated-input {
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            color: black;
-        }
-
-        .animated-input:focus {
-            border-color: #4ade80;
-            box-shadow: 0 0 0 2px rgba(72, 187, 120, 0.5);
         }
 
         .recipe-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
         .recipe-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transform: translateY(-5px);
         }
 
-        .button {
-            transition: background-color 0.3s ease;
+        .input-animate {
+            transition: all 0.3s ease;
         }
 
-        .button:hover {
-            background-color: #38a169;
+        .input-animate:focus {
+            transform: scale(1.02);
         }
 
-        .container {
-            max-width: 1200px;
+        /* Loader Animation */
+        @keyframes recipe-loader {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-        /* Floating Action Button */
-        .fab {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background-color: #38a169;
-            color: white;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
-            z-index: 1000;
+        .recipe-loader {
+            animation: recipe-loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
         }
 
-        .fab:hover {
-            transform: scale(1.1);
+        .loader-dot {
+            animation: loader-dot 1s infinite;
         }
 
-        /* Header styles */
-        header {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 1rem 0;
+        @keyframes loader-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
         }
 
-        nav {
-            margin: 0 auto;
-            max-width: 1200px;
+        .loader-dot:nth-child(2) {
+            animation-delay: 0.2s;
         }
 
-        nav a {
-            margin: 0 15px;
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        nav a:hover {
-            color: #4ade80;
-        }
-
-        /* Hero Section */
-        .hero {
-            background-image: url('https://i.pinimg.com/originals/69/e2/61/69e261419d7def685b1aa4204707a5bf.gif');
-            /* Add a hero image */
-            background-size: cover;
-            background-position: center;
-            padding: 100px 0;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-        }
-
-        .hero p {
-            color: #ffffff;
-            font-size: 1.2rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-        }
-
-        /* Footer styles */
-        footer {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 1rem 0;
-            text-align: center;
-            color: #fff;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        .loader-dot:nth-child(3) {
+            animation-delay: 0.4s;
         }
     </style>
 </head>
 
-<body class="bg-animated text-white">
-    <header>
-        <nav class="container mx-auto flex justify-center">
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('contact') }}">Contact</a>
-        </nav>
-    </header>
+<body class="bg-gradient-animate min-h-screen text-white animate-gradient pb-16">
+    <!-- Navbar with glass effect -->
+    <nav class="fixed w-full z-50 backdrop-blur-md bg-black/30 border-b border-white/10">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="{{ url_for('index') }}" class="text-2xl font-bold hover:text-green-400 transition-colors">
+                    Recipes
+                </a>
+                <div class="space-x-6">
+                    <a href="{{ url_for('index') }}" class="hover:text-green-400 transition-colors">Home</a>
+                    <a href="{{ url_for('contact') }}" class="hover:text-green-400 transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <div class="hero">
-        <h1 class="font-extrabold">Get Your Recipes</h1>
-        <p>Discover delicious recipes based on your ingredients!</p>
+    <!-- Hero Section -->
+    <div class="pt-24 pb-12 text-center animate-fade-in">
+        <h1 class="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
+            Get Your Recipes
+        </h1>
+        <p class="text-xl text-gray-300 animate-slide-up">
+            Discover delicious recipes based on your ingredients!
+        </p>
     </div>
 
-    <div class="container mx-auto text-center mt-10">
-        <!-- Ingredient Input Form -->
-        <form method="post" class="mb-6">
-            <div class="flex justify-center">
-                <input type="text" id="ingredients" name="ingredients"
-                    class="animated-input border-2 border-gray-300 rounded-lg py-2 px-4 w-1/2 focus:outline-none"
-                    placeholder="e.g. tomato, cheese, garlic" required>
-                <button type="submit" class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg ml-2 button">Find
-                    Recipes</button>
+    <!-- Search Form -->
+    <div class="container mx-auto px-4 mb-12">
+        <form method="post" class="max-w-2xl mx-auto" id="recipeForm">
+            <div class="flex gap-2">
+                <input type="text" name="ingredients"
+                    class="input-animate w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 focus:border-green-400 focus:ring-2 focus:ring-green-400 focus:outline-none text-white placeholder-gray-400"
+                    placeholder="Enter ingredients (e.g., tomato, cheese, garlic)" required>
+                <button type="submit"
+                    class="px-6 py-3 bg-green-500 hover:bg-green-600 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-green-500/30 flex items-center gap-2"
+                    id="searchButton">
+                    <span>Search</span>
+                </button>
             </div>
         </form>
+    </div>
 
-        <!-- Display Recipe Results -->
-        {% if submitted %}
-        <h2 class="text-2xl text-blue-300 mb-4">Recipes Found:</h2>
+    <!-- Loading Animation -->
+    <div id="loadingAnimation" class="hidden">
+        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div class="bg-white/10 backdrop-blur-md p-8 rounded-2xl flex flex-col items-center">
+                <div class="flex justify-center mb-4">
+                    <svg class="recipe-loader w-16 h-16 text-green-400" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                            fill="none"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="text-white text-lg font-medium flex items-center">
+                    Searching recipes
+                    <span class="flex ml-2">
+                        <span class="loader-dot">.</span>
+                        <span class="loader-dot">.</span>
+                        <span class="loader-dot">.</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Results -->
+    {% if submitted %}
+    <div class="container mx-auto px-4 animate-fade-in">
+        <h2 class="text-2xl font-bold mb-6 text-center">{% if recipes and recipes['hits'] %}Found Recipes{% else %}No
+            recipes found{% endif %}</h2>
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {% if recipes is not none and recipes['hits'] | length > 0 %}
+            {% if recipes and recipes['hits'] %}
             {% for recipe in recipes['hits'] %}
-            <div class="recipe-card p-4 mb-2">
+            <div
+                class="recipe-card backdrop-blur-md bg-white/10 rounded-xl overflow-hidden hover:shadow-xl hover:shadow-black/30">
                 <img src="{{ recipe['recipe']['image'] }}" alt="{{ recipe['recipe']['label'] }}"
-                    class="rounded mb-2 w-full h-32 object-cover">
-                <strong class="text-lg text-white">{{ recipe['recipe']['label'] }}</strong>
-                <a href="{{ recipe['recipe']['url'] }}" target="_blank"
-                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded float-right">View
-                    Recipe</a>
-                <ul class="mt-2 text-sm text-gray-300">
-                    <li><strong>Used Ingredients:</strong> {{ recipe['recipe']['ingredientLines'] | join(', ') }}</li>
-                </ul>
+                    class="w-full h-48 object-cover" loading="lazy">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold mb-2">{{ recipe['recipe']['label'] }}</h3>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-300">
+                            {{ (recipe['recipe']['ingredientLines'] | length) }} ingredients
+                        </p>
+                    </div>
+                    <a href="{{ recipe['recipe']['url'] }}" target="_blank"
+                        class="inline-block w-full text-center py-2 bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-300">
+                        View Recipe
+                    </a>
+                </div>
             </div>
             {% endfor %}
             {% else %}
-            <p class="text-red-400">No recipes found. Please try different ingredients.</p>
+            <div class="col-span-full text-center text-gray-400">
+                Try different ingredients or check your spelling
+            </div>
             {% endif %}
         </div>
-        {% endif %}
     </div>
+    {% endif %}
 
-    <footer>
-        <p>&copy; 2024 Anindya Get Your Recipes. All rights reserved.</p>
-        <p><a href="{{ url_for('contact') }}" class="text-green-400">Contact Us</a></p>
+    <!-- Footer -->
+    <footer class="fixed bottom-0 w-full backdrop-blur-md bg-black/30 border-t border-white/10">
+        <div class="container mx-auto px-4 py-4 text-center">
+            <p class="text-sm text-gray-400">&copy; 2024 Anindya Get Your Recipes. All rights reserved.</p>
+            <a href="{{ url_for('contact') }}" class="text-sm text-green-400 hover:text-green-300 transition-colors">
+                Contact Us
+            </a>
+        </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        document.getElementById('recipeForm').addEventListener('submit', function (e) {
+            // Show loading animation
+            document.getElementById('loadingAnimation').classList.remove('hidden');
+
+            // Disable search button
+            const searchButton = document.getElementById('searchButton');
+            searchButton.disabled = true;
+            searchButton.classList.add('opacity-50', 'cursor-not-allowed');
+        });
+    </script>
 </body>
 
 </html>

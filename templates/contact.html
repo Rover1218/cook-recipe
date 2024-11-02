@@ -6,15 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Get Your Recipes</title>
     <link rel="icon" href="{{ url_for('static', filename='images/1308416.png') }}" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            padding-bottom: 60px;
-            /* Adjust this to match footer height */
-        }
-
-        /* Background animation */
         @keyframes gradient {
             0% {
                 background-position: 0% 50%;
@@ -29,78 +23,172 @@
             }
         }
 
-        .bg-animated {
+        .animate-gradient {
             background: linear-gradient(270deg, #616252, #202020);
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
         }
 
-        /* Footer styles */
-        footer {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 1rem 0;
-            text-align: center;
-            color: #fff;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
 
-        /* Header styles to match index page */
-        header {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 1rem 0;
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
         }
 
-        header a {
-            margin: 0 1rem;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        header a:hover {
-            color: #4ade80;
-            /* Matches hover color of the main page */
+        .transition-transform {
+            transition: transform 0.3s ease-in-out;
         }
     </style>
 </head>
 
-<body class="bg-animated text-white">
-    <header>
-        <nav class="container mx-auto flex justify-center">
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('contact') }}" class="text-green-400">Contact</a>
-        </nav>
-    </header>
-
-    <div class="container mx-auto text-center mt-10">
-        <h1 class="text-3xl font-extrabold mb-6">Contact Us</h1>
-        <p>If you have any questions or feedback, please find our contact details below:</p>
-
-        <div class="mt-6 max-w-md mx-auto">
-            <div class="mb-4">
-                <h2 class="border-2 border-gray-300 rounded-lg py-2 px-4 w-full text-left">
-                    Name: Anindya Kanti Das
-                </h2>
-            </div>
-            <div class="mb-4">
-                <h2 class="border-2 border-gray-300 rounded-lg py-2 px-4 w-full text-left">
-                    Email: anindyakanti2020@gmail.com
-                </h2>
+<body class="animate-gradient min-h-screen text-white opacity-0" x-data>
+    <!-- Header with glass effect -->
+    <nav class="fixed w-full z-50 backdrop-blur-md bg-black/30 border-b border-white/10">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="{{ url_for('index') }}" class="text-2xl font-bold hover:text-green-400 transition-colors">
+                    Recipes
+                </a>
+                <div class="space-x-6">
+                    <a href="{{ url_for('index') }}" class="hover:text-green-400 transition-colors">Home</a>
+                    <a href="{{ url_for('contact') }}" class="hover:text-green-400 transition-colors">Contact</a>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <footer>
-            <p>&copy; 2024 Anindya Get Your Recipes. All rights reserved.</p>
-            <p><a href="{{ url_for('contact') }}" class="text-green-400">Contact Us</a></p>
-        </footer>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-24 pb-20">
+        <div class="text-center space-y-6 mb-12 opacity-0" id="header-content">
+            <h1 class="text-4xl md:text-5xl font-extrabold animate-float">
+                Contact Us
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                If you have any questions or feedback, please find our contact details below:
+            </p>
+        </div>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <!-- Contact Cards Container -->
+        <div class="max-w-md mx-auto space-y-6">
+            <!-- Name Card -->
+            <div class="opacity-0 transform translate-y-4 transition-all duration-300 hover:scale-105 
+                        backdrop-blur-lg bg-white/5 rounded-xl p-6 
+                        border border-white/10 hover:border-green-400/50 
+                        shadow-lg hover:shadow-green-400/20">
+                <div class="flex items-center space-x-4">
+                    <div
+                        class="bg-green-500 p-3 rounded-full transform transition-transform duration-300 hover:rotate-12">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold">Name</h2>
+                        <p class="text-gray-300">Anindya Kanti Das</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Card -->
+            <div class="opacity-0 transform translate-y-4 transition-all duration-300 hover:scale-105 
+                        backdrop-blur-lg bg-white/5 rounded-xl p-6 
+                        border border-white/10 hover:border-green-400/50 
+                        shadow-lg hover:shadow-green-400/20">
+                <div class="flex items-center space-x-4">
+                    <div
+                        class="bg-green-500 p-3 rounded-full transform transition-transform duration-300 hover:rotate-12">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold">Email</h2>
+                        <a href="mailto:anindyakanti2020@gmail.com"
+                            class="text-green-400 hover:text-green-300 transition-colors duration-300">
+                            anindyakanti2020@gmail.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 w-full backdrop-blur-lg bg-black/50 py-4 text-center">
+        <p class="text-sm opacity-0 transform translate-y-4">&copy; 2024 Anindya Get Your Recipes. All rights reserved.
+        </p>
+        <a href="{{ url_for('contact') }}"
+            class="text-green-400 hover:text-green-300 transition-colors duration-300 opacity-0 transform translate-y-4">
+            Contact Us
+        </a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fade in body
+            gsap.to('body', {
+                opacity: 1,
+                duration: 1,
+                ease: 'power2.out'
+            });
+
+            // Header content animation
+            gsap.to('#header-content', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+
+            // Card animations
+            gsap.to('.max-w-md > div', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: 'power3.out',
+                delay: 0.5
+            });
+
+            // Footer animations
+            gsap.to('footer p, footer a', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: 'power3.out',
+                delay: 1
+            });
+
+            // Header scroll animation
+            let lastScroll = 0;
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                const header = document.querySelector('header');
+
+                if (currentScroll > lastScroll && currentScroll > 100) {
+                    header.style.transform = 'translateY(-100%)';
+                } else {
+                    header.style.transform = 'translateY(0)';
+                }
+                lastScroll = currentScroll;
+            });
+        });
+    </script>
 </body>
 
 </html>
